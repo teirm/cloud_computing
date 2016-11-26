@@ -29,7 +29,7 @@ porter = nltk.PorterStemmer()
 relDict = {}
 relDict['keywords'] = {}
 
-print 'Information Retrieval Engine - Therese Dachille (tcd12@pitt.edu)\n'
+print('Information Retrieval Engine - Therese Dachille (tcd12@pitt.edu)\n')
 
 
 # for each set of keywords
@@ -41,17 +41,16 @@ for line in lines:
     listDocs = []
     # tokenize each line into list of keywords
     line = line.lower()
-    #print(line)
+    # print(line)
     keywords = line.split()
     strKeys = 'keywords ='
 
     wordDocCount = {}
 
-
     # for each keyword in the set, stem the keyword,
     # get the number of docs the word appears in
     # get the docs all keywords in set appears in
-    for i in range(0,len(keywords)):
+    for i in range(0, len(keywords)):
         key = keywords[i]
         strKeys += ' ' + key
         # stem each keyword to find in array
@@ -61,20 +60,20 @@ for line in lines:
         # add each key to dictionary
         relDict['keywords'][key] = {}
 
-        #print(wordDocCount)
+        # print(wordDocCount)
         # get number of docs word appears in
         wordDocCount[key] = list['words'][key]['wordDocCount']
-        #print(wordDocCount[key])
+        # print(wordDocCount[key])
 
         # iterate through all docs in each key's list and add to separate list
         for docName in list['words'][key]['docList']:
             docName = docName[8:]
-            if docName not in listDocs:           
-                listDocs.append(docName)  
-            #print(listDocs)
+            if docName not in listDocs:
+                listDocs.append(docName)
+            # print(listDocs)
 
     print(strKeys + '\n')
-    #print(listDocs)
+    # print(listDocs)
 
     # initialize weightDict for each new set of keywords
     weightDict = {}
@@ -85,9 +84,10 @@ for line in lines:
         weightDict['keys'][key] = {}
         relDict['keywords'][key]['docs'] = {}
         for doc in listDocs:
-            #print(doc)
-            if (list['words'][key]['docList'].has_key('./input/' + doc)):
-                relDict['keywords'][key]['docs'][doc] = list['words'][key]['docList']['./input/' + doc]
+            # print(doc)
+            if ('./input/' + doc in list['words'][key]['docList']):
+                relDict['keywords'][key]['docs'][doc] = list[
+                    'words'][key]['docList']['./input/' + doc]
             else:
                 relDict['keywords'][key]['docs'][doc] = 0
 
@@ -96,15 +96,15 @@ for line in lines:
             N = float(totalDocs)
             n = wordDocCount[key]
 
-            if freq is not 0: 
-                weight = (1 + math.log(freq,2))*math.log((N/n),2)
+            if freq is not 0:
+                weight = (1 + math.log(freq, 2)) * math.log((N / n), 2)
             else:
                 weight = 0
             weight = format(weight, '.6f')
             weightDict['keys'][key][doc] = weight
 
     # create dictionary for printing
-    finalList = []*len(listDocs)
+    finalList = [] * len(listDocs)
     scores = []
 
     # iterate through docs with weights
@@ -125,7 +125,7 @@ for line in lines:
         for dictionary in docDict:
             scoreDict.update({score: {doc: docDict}})
 
-        finalList.append(scoreDict) 
+        finalList.append(scoreDict)
 
     # add to finalDict to associate with key, doc, and weights
     scores.sort(reverse=True)
@@ -138,20 +138,21 @@ for line in lines:
         for j in range(len(finalList)):
             dictionary = finalList[j]
             # get dictionary from finalList[j] with key as the given score
-            if dictionary.has_key(score):
+            if score in dictionary:
                 # retrieve filename, score, weight for each keyword
                 for score in dictionary:
                     temp = dictionary.get(score)
                     for doc in temp:
-                        s = '''[{0}] file={1}'''.format(rank,doc)
+                        s = '''[{0}] file={1}'''.format(rank, doc)
                         print s,
                         fScore = format(score, '.6f')
                         s1 = ''' score={0}'''.format(fScore)
                         print s1
                         # print each keyword for each doc, with weight
                         i = 0
-                        for key in temp[doc]: 
-                            s2 = '''    weight({0})={1}'''.format(keywords[i],temp[doc][key])
+                        for key in temp[doc]:
+                            s2 = '''    weight({0})={1}'''.format(
+                                keywords[i], temp[doc][key])
                             print s2
                             i += 1
                         print
@@ -165,10 +166,7 @@ for line in lines:
 
         finalList = finalListCopy
         for f in finalList:
-            if f.has_key(score):
+            if score in f:
                 changeRank = False
         if changeRank is True:
             rank += 1
- 
-
-
