@@ -7,6 +7,7 @@ Purpose: Functions for spawing MapReduce and SparkJobs
 
 import subprocess
 import shlex
+import os.path
 
 
 def submit_mr_index():
@@ -44,6 +45,24 @@ def submit_spark_index():
 
     Returns: Int
     """
+# THE FOLLOWING IS AN EXAMPLE OF USING SUBPROCESSES
+    example_dir = 'spark_example'
+    spark_script = 'pi_est.scala'
+
+    prog_path = os.path.join(example_dir, spark_script)
+    part_count = 100000
+
+    args_dict = {'job_name': prog_path,
+                 'n_val': part_count
+                }
+
+    cmd_string = """spark-shell -i
+                    {job_name}
+                    --conf spark.driver.extraJavaOptions="-D{n_val}"
+                    """.format(**args_dict)
+    
+    print(shlex.split(cmd_string))
+    subprocess.run(shlex.split(cmd_string))
 
 
 def submit_spark_rar():
@@ -55,3 +74,7 @@ def submit_spark_rar():
 
     Returns: Int
     """
+
+if __name__ == '__main__':
+
+    submit_spark_index()
