@@ -29,14 +29,7 @@ def main():
 
     if choice == 1:
         if PY_3:
-            doc_name = input(
-                "You have selected to index a document.\n\
-What is the name of the document? ")
-        else:
-            doc_name = raw_input(
-                "You have selected to index a document.\n\
-What is the name of the document? ")
-
+            print("You have selected to index a document.\n")
     elif choice == 2:
         if PY_3:
             keyword = input(
