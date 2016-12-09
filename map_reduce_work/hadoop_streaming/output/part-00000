@@ -477,8 +477,7 @@ $5,000)	1
 ("the	1
 ($1	1
 ('Twas	1
-(/ x	2
-(/ x x	2
+(/	4
 (1)	11
 (120)	1
 (1281),	1
@@ -704,23 +703,20 @@ $5,000)	1
 (when	1
 (woes	1
 (www.gutenberg.net),	1
-(x /	1
-(x x /	1
+(x	2
 (ærest	1
-*	20
+)	1
+).	1
+);	1
+*	124
 ***	6
 *****	2
-*  *  *  *  *  * when	1
-*       *       *       *       *       *       *	14
 -	7
 -'u.'	1
 .	24
 ...	19
 ...;	1
-/ ).	1
-/ x)	1
-/ x);	1
-/ x x);	1
+/	8
 1	1
 1.	1
 1.A.	1
@@ -11394,7 +11390,7 @@ wert	1
 what	17
 whatever	3
 whatsoever.	2
-when	88
+when	89
 when,	1
 whence	2
 whenever	2
@@ -11637,11 +11633,12 @@ www.gutenberg.net	2
 wáere-ryhtum	1
 wære	1
 wíg	1
+x	10
+x)	1
+x);	2
 xi	1
 xiii	1
 xviii	1
-x / )	1
-x / );	1
 yards,	1
 yawning,	1
 ye	18

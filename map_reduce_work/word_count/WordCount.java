@@ -10,6 +10,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapred.FileSplit;
 
 public class WordCount {
 
@@ -21,10 +22,18 @@ public class WordCount {
 
                 public void map(Object key, Text value, Context context
                 ) throws IOException, InterruptedException {
+
+                        String fileName = ((FileSplit) context.getInputSplit()).getPath().getName();
+//                        System.out.println("Filename: " + fileName);
+
                         StringTokenizer itr = new StringTokenizer(value.toString());
+                       
+                        Configuration conf = context.getConfiguration();
+                        StringBuilder arg = new StringBuilder(conf.get("Puppies"));
+                        
                         while (itr.hasMoreTokens()) {
-                                word.set(itr.nextToken());
-                                context.write(word, one);
+                            word.set(itr.nextToken() + " " + arg.toString() + " " + fileName);
+                            context.write(word, one);
                         }
                 }
         }
@@ -32,6 +41,7 @@ public class WordCount {
         public static class IntSumReducer
         extends Reducer<Text,IntWritable,Text,IntWritable> {
                 private IntWritable result = new IntWritable();
+                private Text argument = new Text();
 
                 public void reduce(Text key, Iterable<IntWritable> values,
                 Context context
@@ -46,12 +56,15 @@ public class WordCount {
         }
 
         public static void main(String[] args) throws Exception {
-            
-                System.out.println("-----ARGS TEST-----");
-                System.out.println(args[2]);
-                System.out.println("-----ARGS TEST-----");
+
+
+                String[] pathList = args[0].split("/");
+                String documentName = pathList[pathList.length - 1]; 
+
+                System.out.println("DOCUMENT NAME: " + documentName);
 
                 Configuration conf = new Configuration();
+                conf.set("Puppies", documentName);
                 Job job = Job.getInstance(conf, "word count");
                 job.setJarByClass(WordCount.class);
                 job.setMapperClass(TokenizerMapper.class);
@@ -64,4 +77,3 @@ public class WordCount {
                 System.exit(job.waitForCompletion(true) ? 0 : 1);
         }
 }
-
