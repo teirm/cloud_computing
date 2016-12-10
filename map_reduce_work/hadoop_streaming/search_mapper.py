@@ -2,7 +2,7 @@
 
 import sys
 
-SEARCH_TERM = sys.argv[1]
+SEARCH_TERMS = sys.argv[1:]
 
 for line in sys.stdin:
 
@@ -10,10 +10,8 @@ for line in sys.stdin:
 
     (word, data_chain) = line.split('\t')
 
-    if word == SEARCH_TERM:
+    if word in SEARCH_TERMS:
         data_nodes = data_chain.split('->')
 
         for data_node in data_nodes:
-            (key, value) = data_node.split(':')
-
-            print('{}\t{}'.format(key, value))
+            print('{}\t{}'.format(word, data_node))
