@@ -22,5 +22,5 @@ for input_line in sys.stdin:
             data_chain = node_data 
             last_key = this_key
 
-        if last_key == this_key:
-            print("{}\t{}".format(last_key, data_chain))
+if last_key == this_key:
+    print("{}\t{}".format(last_key, data_chain))
