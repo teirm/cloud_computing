@@ -10,7 +10,7 @@ LAST_KEY = None
 
 for line in sys.stdin:
     line = line.strip()
-    
+
     (this_key, data_node) = line.split('\t')
     (book, value) = data_node.split(':')
 

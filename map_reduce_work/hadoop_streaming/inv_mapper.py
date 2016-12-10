@@ -7,6 +7,6 @@ for line in sys.stdin:
     (key, count) = line.split('\t')
     (file_name, word) = key.split(' ')
 
-    inv_index_node = ':'.join([file_name, count]) 
+    inv_index_node = ':'.join([file_name, count])
 
     print("{}\t{}".format(word, inv_index_node))
