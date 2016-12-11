@@ -45,10 +45,10 @@ val counts = concat_files.map(key => (key, 1)).reduceByKey(_ + _)
 
 //val flattened_tuple = counts.map(tuple => tuple._1.split(":").mkString(":") ++ ":" ++ tuple._2.toString)
 
-val flattend_tuple = counts.map(tuple => mix_values(tuple._1, tuple._2))
+val swapped_keys = counts.map(tuple => mix_values(tuple._1, tuple._2))
 
-//val altered_keys = flattened_tuple.map(tuple => mix_values(tuple._1))
+val inverted_index = swapped_keys.reduceByKey(_ ++ "->" ++ _)
 
-flattened_tuple.coalesce(1, true).saveAsTextFile("test_dir")
+inverted_index.coalesce(1, true).saveAsTextFile("test_dir")
 
 System.exit(0)
