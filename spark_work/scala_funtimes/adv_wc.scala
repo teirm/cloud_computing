@@ -14,7 +14,8 @@ val files = sc.wholeTextFiles("../../map_reduce_work/input_dir")
 
 //val got_books = files.mapKeys(s => s.split("/").last)
 
-val split_files = files.flatMapValues(line => line.split(" ")).mapValues(word => word.trim)
+val cleaned_files = files.mapValues(s => s.replaceAll("""([\p{Punct}&&[^.]]|\b\p{IsLetter}{1,2}\b)\s*""", " ")).mapValues(word => word.replaceAll("\\p{C}", " ")).mapValues(word => word.replaceAll("\\p{P}", " "))
+val split_files = cleaned_files.flatMapValues(line => line.split(" ")).mapValues(word => word.trim)
 val stripped_files = split_files.mapValues(word => word.replaceAll("""([\p{Punct}&&[^.]]|\b\p{IsLetter}{1,2}\b)\s*""", "")).mapValues(word => word.replaceAll("\\p{C}", ""))
 val concat_files = stripped_files.map(tuple => tuple._1.split("/").last.trim ++ ":" ++ tuple._2.trim)
 
