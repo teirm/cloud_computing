@@ -21,7 +21,6 @@ val concat_files = stripped_files.map(tuple => tuple._1.split("/").last.trim ++ 
 
 val counts = concat_files.map(key => (key, 1)).reduceByKey(_ + _)
 
-
-counts.coalesce(1, true).saveAsTextFile("test_file.txt")
+counts.coalesce(1, true).saveAsTextFile("test_dir")
 
 System.exit(0)
