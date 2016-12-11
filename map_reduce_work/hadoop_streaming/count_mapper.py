@@ -17,7 +17,7 @@ for line in sys.stdin:
 
     for word in words:
         value = 1
-        ascii_word = word.encode('ascii', 'ignore').decode('utf-8')
-        stripped_word = ascii_word.translate(translator).strip('"')
+        ascii_word = word.encode('ascii', 'replace').decode('utf-8', 'ignore')
+        stripped_word = ascii_word.translate(translator)
         key = ' '.join([file_name, stripped_word])
         print("{}\t{}".format(key, value))

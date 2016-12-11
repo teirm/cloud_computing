@@ -3,7 +3,7 @@ build:
 	jar cf wc.jar WordCount*.class
 
 run:
-	hadoop jar wc.jar WordCount input_dir/ output_dir/
+	hadoop jar wc.jar WordCount ../input_dir/ output_dir/
 
 view:
 	cat output_dir/part-r-00000
