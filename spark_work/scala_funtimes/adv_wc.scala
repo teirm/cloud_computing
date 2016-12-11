@@ -19,6 +19,9 @@ val split_files = cleaned_files.flatMapValues(line => line.split(" ")).mapValues
 val stripped_files = split_files.mapValues(word => word.replaceAll("""([\p{Punct}&&[^.]]|\b\p{IsLetter}{1,2}\b)\s*""", "")).mapValues(word => word.replaceAll("\\p{C}", ""))
 val concat_files = stripped_files.map(tuple => tuple._1.split("/").last.trim ++ ":" ++ tuple._2.trim)
 
-concat_files.coalesce(1, true).saveAsTextFile("test_file.txt")
+val counts = concat_files.map(key => (key, 1)).reduceByKey(_ + _)
+
+
+counts.coalesce(1, true).saveAsTextFile("test_file.txt")
 
 System.exit(0)
