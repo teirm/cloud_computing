@@ -23,7 +23,7 @@ def main():
             1) Index documents?\n\
             2) Input keyword(s) to search for?\n\
             3) Exit\n')
-        choice = int(stdin.readline())
+        choice = int(stdin.readline().rstrip('\n'))
 
         if choice == 1:
             print("You have selected to index documents.\n")
@@ -32,7 +32,7 @@ def main():
                     1) MapReduce\n\
                     2) Spark\n')
 
-            app_choice = int(stdin.readline())
+            app_choice = int(stdin.readline().rstrip('\n'))
 
             if app_choice == 1:
                 print(
@@ -46,31 +46,37 @@ def main():
         elif choice == 2:
             print("You have selected search for keyword(s).\n\
     Please enter the keyword(s): ")
-            keywords = stdin.readline()
+            keywords = stdin.readline().rstrip('\n')
 
             print('\nHow many results would you like to return? ')
-            num_results = int(stdin.readline())
+            num_results = int(stdin.readline().rstrip('\n'))
 
             print('And would you like to perform search using:\n\
                     1) MapReduce\n\
                     2) Spark\n')
 
-            app_choice2 = int(stdin.readline())
+            app_choice2 = int(stdin.readline().rstrip('\n'))
+            app = ""
+            if app_choice2 == 1:
+                app = "MapReduce"
+            elif app_choice2 == 2:
+                app = "Spark"
+
+            keys_list = keywords.split(" ")
+            keys_concat = ", ".join(keys_list)
+
+            s = 'You have chosen to search for the top {0} documents'\
+                ' for \'{1}\' with {2}.\nBeginning {2} job...\n'.format(
+                    num_results,keys_concat,app)
+
+            print(s)
 
             if app_choice2 == 1:
-                print(
-                    'You have chosen to search for the top {0} documents'
-                    'for {1} with MapReduce.'
-                    '\nBeginning MapReduce job...\n'.format(
-                        num_results, keywords))
                 job_submission.submit_mr_rar(keywords, num_results)
 
             elif app_choice2 == 2:
-                print(
-                    'You have chosen to search for the top {0} documents for {1} with Spark.'
-                    '\nBeginning Spark job...\n'.format(
-                        num_results, keywords))
                 job_submission.submit_spark_rar(keywords, num_results)
+
 
         elif choice == 3:
             print('Good-bye!')
