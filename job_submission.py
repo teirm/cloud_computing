@@ -25,7 +25,7 @@ def submit_mr_index():
     subprocess.run(shlex.split('rm -r ./output_2/'))
     subprocess.run(shlex.split('rm -r ./search_results/'))
     subprocess.run(shlex.split('rm -r ./top_n_results/'))
-    
+
     # make run1:
     # runs count mapper and reducer
     cnt_cmd_string = '''hadoop jar map_reduce_work/hadoop_streaming/hadoop-streaming-2.7.3.jar'''\
@@ -78,8 +78,8 @@ def submit_spark_index():
     Returns: Int
     """
     # make clean:
+    # IN THE FUTURE LOOK INTO OS MODULE TO REMOVE DIRECTORIES
     subprocess.run(shlex.split('rm -r ./inverted_index/'))
-
     cmd_string = '''spark-shell -i spark_work/scala_funtimes/adv_wc.scala'''
 
     subprocess.run(shlex.split(cmd_string))
@@ -94,6 +94,12 @@ def submit_spark_rar(keywords, num_results):
 
     Returns: Int
     """
+
+    #DO NOT DELETE THIS#
+    # cmd_string = """spark-shell -i {job_name} --conf
+    #                spark.driver.extraJavaOptions="-D{n_val}"
+    #             """.format(**args_dict)
+
     # make clean:
     subprocess.run(shlex.split('rm -r ./search_results/'))
 
