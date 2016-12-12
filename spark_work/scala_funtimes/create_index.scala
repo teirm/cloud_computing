@@ -1,6 +1,3 @@
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkConf
-
 def mix_values(concat_val: String, frequency: Int):
 (String, String) = {
 
@@ -22,10 +19,6 @@ def mix_values(concat_val: String, frequency: Int):
   
   return (word, book_freq)
 }
-
-
-val conf = new SparkConf()
-val sc = new SparkContext(conf)
 
 val files = sc.wholeTextFiles("../../map_reduce_work/input_dir")
 

@@ -5,10 +5,14 @@
  * Purpose: Search the inverted index created
  *          using Spark given user input
  */
+
+
+/* NOTE: THESE NEEDS TO BE SET BY THE USER INPUT */
 val search_terms = Array("the","your")
+val max_rank = 1 
+/*************************************************/
 
-val max_rank = 2 
-
+/* FUNCTIONS */
 def search_file(data_line: String) = search_terms contains data_line.split(",")(0)
 
 def get_top_n(search_line: String): (String) = {
@@ -21,14 +25,23 @@ def get_top_n(search_line: String): (String) = {
   
   val top_results = sorted_nodes.slice(0, max_rank)  
   
-  return search_term ++ top_results.mkString 
+  return search_term ++ ":" ++ top_results.mkString 
 }
+/*************************************************/
 
+/* READS IN THE INVERTED INDEX */
 val inv_index = sc.textFile("inverted_index")
+
+/* REMOVES PARENTHESES FROM INVERTED INDEX */
 val cleaned_index = inv_index.map(x => x.replaceAll("[()]",""))
+
+/* FILTERS INDEX TO FIND SEARCH TERMS */
 val search_results = cleaned_index.filter(search_file)
+
+/* GETS THE TOP N RESULTS BASED UPON THE SEARCH TERMS */
 val top_n_results = search_results.map(line => get_top_n(line))
 
-top_n_results.foreach(println)
+/* SAVES THE RESULTS TO A FILE */
+top_n_results.coalesce(1, true).saveAsTextFile("search_results")
 
 System.exit(0)
