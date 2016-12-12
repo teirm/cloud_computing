@@ -7,17 +7,19 @@
  *          using Spark given user input
  */
 
+import org.apache.spark.SparkConf
 
 /*************************************************/
 /* GETTING USER ARGUMENTS */
-val param_string = sc.get("spark.driver.extraJavaOptions")
+val sconf = new SparkConf()
+val param_string = sconf.get("spark.driver.extraJavaOptions")
 
 /* PROCESSING USER ARGUMENTS */
 /* REMOVES THE -D */
 val param_slice = param_string.slice(2,param_string.length) 
 
 /* CONVERT SPACE DELMITED STRING TO ARRAY */
-val param_array = param_slice.split(" ")
+val param_array = param_slice.split(",")
 
 /* GET MAX RANK */
 val user_rank = param_array.last.toInt
