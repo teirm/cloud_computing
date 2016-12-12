@@ -32,7 +32,7 @@ def mix_values(concat_val: String, frequency: Int):
 /*************************************************/
 
 /* READ IN BOOK DIR AS (BOOK, CONTENT) PairRDD */
-val files = sc.wholeTextFiles("../../map_reduce_work/input_dir")
+val files = sc.wholeTextFiles("map_reduce_work/input_dir")
 
 /* REMOVE PUNCTUATION FROM CONTENTS AND UNICODE CHARS */
 val cleaned_files = files.mapValues(s => s.replaceAll("""([\p{Punct}&&[^.]]|\b\p{IsLetter}{1,2}\b)\s*""", " ")).mapValues(word => word.replaceAll("\\p{C}", " ")).mapValues(word => word.replaceAll("\\p{P}", " "))
