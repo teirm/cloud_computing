@@ -76,8 +76,14 @@ def main():
             if app_choice2 == 1:
                 job_submission.submit_mr_rar(keywords, num_results)
 
+                # make view:
+                subprocess.run(shlex.split('cat ./top_n_results/part-00000'))
+
             elif app_choice2 == 2:
                 job_submission.submit_spark_rar(keywords, num_results)
+                
+                # make view:
+                subprocess.run(shlex.split('cat ./search_results/part-00000'))
 
 
         elif choice == 3:

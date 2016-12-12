@@ -5,6 +5,7 @@ Authors: Cyrus Ramavarapu and Therese Dachille
 Purpose: Functions for spawing MapReduce and SparkJobs
 """
 
+from os import path
 import subprocess
 import shlex
 
@@ -84,6 +85,7 @@ def submit_spark_index():
     # make clean:
     #!! IN THE FUTURE LOOK INTO OS MODULE TO REMOVE DIRECTORIES
     subprocess.run(shlex.split('rm -r ./inverted_index/'))
+
     cmd_string = '''spark-shell -i spark_work/scala_funtimes/create_index.scala'''
 
     subprocess.run(shlex.split(cmd_string))
@@ -108,8 +110,21 @@ def submit_spark_rar(keywords, num_results):
     # make clean:
     subprocess.run(shlex.split('rm -r ./search_results/'))
 
-    #print('Spark_rar method entered with keywords: {0}. It will return the top {1} results'.format(keywords,num_results))
-    srch_cmd_string = '''spark-shell -i spark_work/scala_funtimes/search_index.scala'''
+    example_dir = 'spark_work/scala_funtimes'
+    spark_script = 'search_index.scala'
+    prog_path = os.path.join(example_dir, spark_script)
+
+    keyword_arr = keywords.split(" ")
+    keyword_list = (",").join(keyword_arr)
+
+    args_dict = {'job_name': prog_path,
+                 'keys': keyword_list,
+                 'n_val': num_results
+                 }
+    srch_cmd_string = """spark-shell -i
+                    {job_name}
+                    --conf spark.driver.extraJavaOptions="-D{keys},{n_val}"
+                         """.format(**args_dict)
 
     subprocess.run(shlex.split(srch_cmd_string))
 
