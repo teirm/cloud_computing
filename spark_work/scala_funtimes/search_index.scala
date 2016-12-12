@@ -8,7 +8,26 @@
  */
 
 
+/*************************************************/
+/* GETTING USER ARGUMENTS */
+val param_string = sc.get("spark.driver.extraJavaOptions")
+
+/* PROCESSING USER ARGUMENTS */
+/* REMOVES THE -D */
+val param_slice = param_string.slice(2,param_string.length) 
+
+/* CONVERT SPACE DELMITED STRING TO ARRAY */
+val param_array = param_slice.split(" ")
+
+/* GET MAX RANK */
+val user_rank = param_array.last.toInt
+
+/* GET SEARCH TERMS */
+val user_search_terms = param_array.slice(0, param_array.length - 1) 
+/*************************************************/
+
 /* NOTE: THESE NEEDS TO BE SET BY THE USER INPUT */
+
 val search_terms = Array("the","your")
 val max_rank = 1 
 /*************************************************/
