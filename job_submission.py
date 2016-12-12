@@ -48,7 +48,8 @@ def submit_mr_rar(keywords, num_results):
     retrieval job.
 
     Keyword arguments:
-    UNSURE RIGHT NOW
+    keyords -- search terms as a space delimited string
+    num_results -- the number of results wanted by the user
 
     Returns: Int
     """
@@ -67,6 +68,9 @@ def submit_mr_rar(keywords, num_results):
     subprocess.run(shlex.split(top_cmd_string))
 
 
+## Please leave these two for me.  They require adding some
+## code to the spark jobs to handle arguments -- especially for
+## the searching -- Cyrus
 def submit_spark_index():
     """
     Will submit the indexing spark job
@@ -78,7 +82,7 @@ def submit_spark_index():
     Returns: Int
     """
     # make clean:
-    # IN THE FUTURE LOOK INTO OS MODULE TO REMOVE DIRECTORIES
+    #!! IN THE FUTURE LOOK INTO OS MODULE TO REMOVE DIRECTORIES
     subprocess.run(shlex.split('rm -r ./inverted_index/'))
     cmd_string = '''spark-shell -i spark_work/scala_funtimes/adv_wc.scala'''
 
@@ -90,12 +94,13 @@ def submit_spark_rar(keywords, num_results):
     Will submit the spark rank and retrieval job.
 
     Keyword arguments:
-    UNSURE RIGHT NOW
+    keywords -- search terms as a space delimited string
+    num_results -- the number of results wanted by the user
 
     Returns: Int
     """
 
-    #DO NOT DELETE THIS#
+    #!!DO NOT DELETE THIS!!#
     # cmd_string = """spark-shell -i {job_name} --conf
     #                spark.driver.extraJavaOptions="-D{n_val}"
     #             """.format(**args_dict)
