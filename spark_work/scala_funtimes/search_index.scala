@@ -1,6 +1,7 @@
 /* Project: tiny-google
  * Module: spark-search
  * Course: CS1699
+ * Date: 11 December 2016
  * Authors: Therese Dachille Cyrus Ramavarapu 
  * Purpose: Search the inverted index created
  *          using Spark given user input
