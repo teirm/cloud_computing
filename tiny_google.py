@@ -11,6 +11,8 @@ Purpose: This program will allow the user to offer text
 """
 
 from sys import stdin
+import subprocess
+import shlex
 import job_submission
 
 
@@ -79,6 +81,13 @@ def main():
 
 
         elif choice == 3:
+             # make clean:
+            # subprocess.run(shlex.split('rm -r ./output/'))
+            # subprocess.run(shlex.split('rm -r ./output_2/'))
+            # subprocess.run(shlex.split('rm -r ./search_results/'))
+            # subprocess.run(shlex.split('rm -r ./top_n_results/'))
+            # subprocess.run(shlex.split('rm -r ./inverted_index/'))
+            # subprocess.run(shlex.split('rm -r ./search_results/'))
             print('Good-bye!')
             exit(0)
 
