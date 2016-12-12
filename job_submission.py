@@ -84,7 +84,7 @@ def submit_spark_index():
     # make clean:
     #!! IN THE FUTURE LOOK INTO OS MODULE TO REMOVE DIRECTORIES
     subprocess.run(shlex.split('rm -r ./inverted_index/'))
-    cmd_string = '''spark-shell -i spark_work/scala_funtimes/adv_wc.scala'''
+    cmd_string = '''spark-shell -i spark_work/scala_funtimes/create_index.scala'''
 
     subprocess.run(shlex.split(cmd_string))
 

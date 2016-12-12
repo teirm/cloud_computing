@@ -35,7 +35,7 @@ val max_rank = 1
 /*************************************************/
 
 /* FUNCTIONS */
-def search_file(data_line: String) = search_terms contains data_line.split(",")(0)
+def search_file(data_line: String) = user_search_terms contains data_line.split(",")(0)
 
 def get_top_n(search_line: String): (String) = {
 
@@ -45,7 +45,7 @@ def get_top_n(search_line: String): (String) = {
   val tupled_nodes = data_nodes.map(node => (node.split(":")(0), node.split(":")(1))) 
   val sorted_nodes = tupled_nodes.sortWith(_._2 > _._2)     
   
-  val top_results = sorted_nodes.slice(0, max_rank)  
+  val top_results = sorted_nodes.slice(0, user_rank)  
   
   return search_term ++ ":" ++ top_results.mkString 
 }
