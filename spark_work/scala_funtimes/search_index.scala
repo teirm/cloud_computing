@@ -8,10 +8,11 @@
  */
 
 import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
 
 /*************************************************/
 /* GETTING USER ARGUMENTS */
-val sconf = new SparkConf()
+@transient val sconf = new SparkConf()
 val param_string = sconf.get("spark.driver.extraJavaOptions")
 
 /* PROCESSING USER ARGUMENTS */
@@ -30,8 +31,8 @@ val user_search_terms = param_array.slice(0, param_array.length - 1)
 
 /* NOTE: THESE NEEDS TO BE SET BY THE USER INPUT */
 
-val search_terms = Array("the","your")
-val max_rank = 1 
+/* val search_terms = Array("the","your") */
+/* val max_rank = 1 */ 
 /*************************************************/
 
 /* FUNCTIONS */
