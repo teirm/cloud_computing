@@ -18,6 +18,13 @@ import shutil
 import job_submission
 
 
+def prettify_word(word):
+    print('\n******************') 
+    print(word)
+    print('******************\n') 
+
+
+
 def main():
     """ main menu for indexing and searching """
     print('Welcome to tiny-google.\n')
@@ -93,9 +100,7 @@ def main():
                     shutil.rmtree('./top_n_results')
 
                 job_submission.submit_mr_rar(keywords, num_results)
-                # make view:
-                subprocess.run(shlex.split('cat ./top_n_results/part-00000'))
-                 # read file
+             # read file
                 with open('./top_n_results/part-00000', 'r') as f:
                     read_data = f.readlines()
 
@@ -104,13 +109,14 @@ def main():
                     word = line.split('\t')[0]
                     results = line.split('\t')[1]
                     tab_results = results.split('->')
-                    print(word, '\n')
+                    
+                    prettify_word(word) 
                     
                     for res in tab_results:
                         res = res[1:-1]
-                        book = line.split(':')[0]
-                        freq = line.split(':')[1]
-                        print(book, '\t', freq, '\n')
+                        book = res.split(':')[0]
+                        freq = res.split(':')[1]
+                        print(book,'\t', freq, '\n')
 
             elif app_choice2 == 2:
                 job_submission.submit_spark_rar(keywords, num_results)
@@ -118,24 +124,22 @@ def main():
                 # read file
                 with open('./search_results/part-00000', 'r') as f:
                     read_data = f.readlines()
-                f.closed
 
-            for line in read_data:
-                line = line.strip()
-                word = line.split(':')[0]
-                results = line.split(':')[1]
-                print(word, '\n')
-                each_result = results.split(')')
-                for res in each_result:
-                    res = res[1:]
-                    comma_del = res.split(",")
-                    if len(comma_del) == 2: 
-                        book = comma_del[0]
-                        freq = comma_del[1]
-                        print(book,'\t',freq,'\n')
-
-
-
+                for line in read_data:
+                    line = line.strip()
+                    word = line.split(':')[0]
+                    results = line.split(':')[1]
+                    each_result = results.split(')')
+            
+                    prettify_word(word) 
+    
+                    for res in each_result:
+                        res = res[1:]
+                        comma_del = res.split(",")
+                        if len(comma_del) == 2: 
+                            book = comma_del[0]
+                            freq = comma_del[1]
+                            print(book,'\t',freq,'\n')
 
 
         elif choice == 3:
