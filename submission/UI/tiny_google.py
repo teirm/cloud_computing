@@ -9,10 +9,12 @@ Purpose: This program will allow the user to offer text
          then having Python find the exact positions
          of the keyword(s) in the retrieved document(s).
 """
-
 from sys import stdin
+import os
 import subprocess
 import shlex
+import shutil
+
 import job_submission
 
 
@@ -84,13 +86,31 @@ def main():
             print(str_to_prnt)
 
             if app_choice2 == 1:
+
+
+                if 'search_results' in os.listdir() and 'top_n_results' in os.listdir():
+                    shutil.rmtree('./search_results')
+                    shutil.rmtree('./top_n_results')
+
                 job_submission.submit_mr_rar(keywords, num_results)
                 # make view:
                 subprocess.run(shlex.split('cat ./top_n_results/part-00000'))
                  # read file
                 with open('./top_n_results/part-00000', 'r') as f:
                     read_data = f.readlines()
-                f.closed
+
+                for line in read_data:
+                    line = line.strip()
+                    word = line.split('\t')[0]
+                    results = line.split('\t')[1]
+                    tab_results = results.split('->')
+                    print(word, '\n')
+                    
+                    for res in tab_results:
+                        res = res[1:-1]
+                        book = line.split(':')[0]
+                        freq = line.split(':')[1]
+                        print(book, '\t', freq, '\n')
 
             elif app_choice2 == 2:
                 job_submission.submit_spark_rar(keywords, num_results)
@@ -101,14 +121,13 @@ def main():
                 f.closed
 
             for line in read_data:
+                line = line.strip()
                 word = line.split(':')[0]
                 results = line.split(':')[1]
                 print(word, '\n')
                 each_result = results.split(')')
                 for res in each_result:
                     res = res[1:]
-                    print("RES") 
-                    print(res) 
                     comma_del = res.split(",")
                     if len(comma_del) == 2: 
                         book = comma_del[0]
