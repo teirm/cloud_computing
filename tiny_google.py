@@ -67,21 +67,19 @@ def main():
             keys_list = keywords.split(" ")
             keys_concat = ", ".join(keys_list)
 
-            s = 'You have chosen to search for the top {0} documents'\
+            str_to_prnt = 'You have chosen to search for the top {0} documents'\
                 ' for \'{1}\' with {2}.\nBeginning {2} job...\n'.format(
-                    num_results,keys_concat,app)
+                    num_results, keys_concat, app)
 
-            print(s)
+            print(str_to_prnt)
 
             if app_choice2 == 1:
                 job_submission.submit_mr_rar(keywords, num_results)
-
                 # make view:
                 subprocess.run(shlex.split('cat ./top_n_results/part-00000'))
 
             elif app_choice2 == 2:
                 job_submission.submit_spark_rar(keywords, num_results)
-                
                 # make view:
                 subprocess.run(shlex.split('cat ./search_results/part-00000'))
 
