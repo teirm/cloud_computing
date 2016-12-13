@@ -107,7 +107,10 @@ def main():
                 each_result = results.split(')')
                 for res in each_result:
                     res = res[1:]
-                    print(res, '\n')
+                    comma_del = res.split(",")
+                    book = comma_del[0]
+                    freq = comma_del[1]
+                    print(book,'\t',freq,'\n')
 
 
 
