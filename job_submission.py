@@ -112,7 +112,7 @@ def submit_spark_rar(keywords, num_results):
 
     example_dir = 'spark_work/scala_funtimes'
     spark_script = 'search_index.scala'
-    prog_path = os.path.join(example_dir, spark_script)
+    prog_path = path.join(example_dir, spark_script)
 
     keyword_arr = keywords.split(" ")
     keyword_list = (",").join(keyword_arr)
@@ -120,7 +120,7 @@ def submit_spark_rar(keywords, num_results):
     args_dict = {'job_name': prog_path,
                  'keys': keyword_list,
                  'n_val': num_results
-                 }
+                }
     srch_cmd_string = """spark-shell -i
                     {job_name}
                     --conf spark.driver.extraJavaOptions="-D{keys},{n_val}"
