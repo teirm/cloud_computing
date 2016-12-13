@@ -70,7 +70,7 @@ def main():
             keys_str = ''
             
             # format to be 'word1', 'word2', and 'word3'
-            for x in range(0,len(keys_list)):
+            for x in range(0, len(keys_list)):
                 if x == len(keys_list)-1:
                     keys_str += "and '" + keys_list[x] + "'"
                 else:
@@ -87,24 +87,27 @@ def main():
                 job_submission.submit_mr_rar(keywords, num_results)
                 # make view:
                 subprocess.run(shlex.split('cat ./top_n_results/part-00000'))
+                 # read file
+                with open('./top_n_results/part-00000', 'r') as f:
+                    read_data = f.readlines()
+                f.closed
 
             elif app_choice2 == 2:
-                #job_submission.submit_spark_rar(keywords, num_results)
-                # make view:
-                #subprocess.run(shlex.split('cat ./search_results/part-00000'))
+                job_submission.submit_spark_rar(keywords, num_results)
+
                 # read file
                 with open('./search_results/part-00000', 'r') as f:
                     read_data = f.readlines()
                 f.closed
 
-                for line in read_data:
-                    word = line.split(':')[0]
-                    results = line.split(':')[1]
-                    print(word, '\n')
-                    each_result = results.split(')')
-                    for res in each_result:
-                        res = res[1:]
-                        print(res, '\n')
+            for line in read_data:
+                word = line.split(':')[0]
+                results = line.split(':')[1]
+                print(word, '\n')
+                each_result = results.split(')')
+                for res in each_result:
+                    res = res[1:]
+                    print(res, '\n')
 
 
 
