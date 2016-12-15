@@ -14,15 +14,32 @@ import os
 import subprocess
 import shlex
 import shutil
+import time
+
 
 import job_submission
 
 
 def prettify_word(word):
-    print('\n******************') 
+    print('\n******************')
     print(word)
-    print('******************\n') 
+    print('******************\n')
 
+
+def inverted_index_perf(run_time, job_type, book_count):
+
+    data_line = "{}\t{}\t{}".format(job_type, book_count, run_time)
+
+    with open("inv_ind_perf.dat", "a") as ofp:
+        print(data_line, file=ofp)
+
+
+def search_index_perf(run_time, job_type, word_count):
+
+    data_line = "{}\t{}\t{}".format(job_type, word_count, run_time)
+
+    with open("search_perf.dat", "a") as ofp:
+        print(data_line, file=ofp)
 
 
 def main():
@@ -48,6 +65,7 @@ def main():
             if app_choice == 1:
                 print(
                     'You have chosen to index with MapReduce.\nBeginning MapReduce job...\n')
+
                 job_submission.submit_mr_index()
 
             elif app_choice == 2:
@@ -55,9 +73,9 @@ def main():
                 job_submission.submit_spark_index()
 
         elif choice == 2:
-            print('You have selected search for keyword(s).\n' \
-                    'Please enter the keyword(s) you would like to search for,'\
-                        'each separated by a space: ')
+            print('You have selected search for keyword(s).\n'
+                  'Please enter the keyword(s) you would like to search for,'
+                  'each separated by a space: ')
             keywords = stdin.readline().rstrip('\n')
 
             print('\nHow many results would you like to return? ')
@@ -77,14 +95,13 @@ def main():
             keys_list = keywords.split(" ")
 
             keys_str = ''
-            
+
             # format to be 'word1', 'word2', and 'word3'
             for x in range(0, len(keys_list)):
-                if x == len(keys_list)-1:
+                if x == len(keys_list) - 1:
                     keys_str += "and '" + keys_list[x] + "'"
                 else:
                     keys_str += "'" + keys_list[x] + "', "
-
 
             str_to_prnt = 'You have chosen to search for the top {0} documents'\
                 ' for {1} with {2}.\nBeginning {2} job...\n'.format(
@@ -93,7 +110,6 @@ def main():
             print(str_to_prnt)
 
             if app_choice2 == 1:
-
 
                 if 'search_results' in os.listdir() and 'top_n_results' in os.listdir():
                     shutil.rmtree('./search_results')
@@ -109,14 +125,14 @@ def main():
                     word = line.split('\t')[0]
                     results = line.split('\t')[1]
                     tab_results = results.split('->')
-                    
-                    prettify_word(word) 
-                    
+
+                    prettify_word(word)
+
                     for res in tab_results:
                         res = res[1:-1]
                         book = res.split(':')[0]
                         freq = res.split(':')[1]
-                        print(book,'\t', freq, '\n')
+                        print(book, '\t', freq, '\n')
 
             elif app_choice2 == 2:
                 job_submission.submit_spark_rar(keywords, num_results)
@@ -130,17 +146,16 @@ def main():
                     word = line.split(':')[0]
                     results = line.split(':')[1]
                     each_result = results.split(')')
-            
-                    prettify_word(word) 
-    
+
+                    prettify_word(word)
+
                     for res in each_result:
                         res = res[1:]
                         comma_del = res.split(",")
-                        if len(comma_del) == 2: 
+                        if len(comma_del) == 2:
                             book = comma_del[0]
                             freq = comma_del[1]
-                            print(book,'\t',freq,'\n')
-
+                            print(book, '\t', freq, '\n')
 
         elif choice == 3:
              # make clean:
