@@ -108,8 +108,8 @@ if __name__ == '__main__':
     #                 '../books_3',
     #                 '../books_4']
 
-    for BOOK_DIR in BOOK_DIR_LIST:
-        iv_perf_analysis(BOOK_DIR)
+    #for BOOK_DIR in BOOK_DIR_LIST:
+    #    iv_perf_analysis(BOOK_DIR)
 
     print('---CLEANING UP BEFORE SEARCHING---')
     job_submission.submit_spark_index()
